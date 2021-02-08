@@ -1,8 +1,10 @@
 """ EE 250L Lab 02: GrovePi Sensors
 
 List team members here.
+Bradford Peterson
 
 Insert Github repository link here.
+https://www.github.com/usc-ee250-spring2021/lab02-bbpeters-usc
 """
 
 """python3 interpreters in Ubuntu (and other linux distros) will look in a 
@@ -23,6 +25,7 @@ sys.path.append('../../Software/Python/')
 sys.path.append('../../Software/Python/grove_rgb_lcd')
 
 import grovepi
+from grove_rgb_lcd import *
 
 """This if-statement checks if you are running this python file directly. That 
 is, if you run `python3 grovepi_sensors.py` in terminal, this if-statement will 
@@ -35,4 +38,20 @@ if __name__ == '__main__':
         #sleep for a reasonable time of 200ms between each iteration.
         time.sleep(0.2)
 
-        print(grovepi.ultrasonicRead(PORT))
+        #Rotary  angle sensor's range is [0,1023], while ultrasonic ranger is
+        #ranger is [0,517]. So the threshold in cm is the fraction (517/1023) of
+        #the reading from the rotary angle sensor, mapped to an integer
+        threshold = int(grovepi.analogRead(0) * (517/1023))
+
+        #Distance read in cm from the ultrasonic ranger
+        dist = grovepi.ultrasonicRead(PORT)
+
+        #If the measured distance falls within the threshold, change screen to
+        #red and print the two readings with OBJ PRES
+        if dist <= threshold:
+            setRGB(255,0,0)
+            setText_norefresh(str(threshold) + "cm OBJ PRES   " + str(dist) + "cm")
+	#Otherwise simply report the threshold and distance with a green background
+        else:
+            setRGB(0,255,0)
+            setText_norefresh(str(threshold) + "cm            " + str(dist) + "cm")
