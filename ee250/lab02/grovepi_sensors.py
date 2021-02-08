@@ -31,7 +31,8 @@ from grove_rgb_lcd import *
 is, if you run `python3 grovepi_sensors.py` in terminal, this if-statement will 
 be true"""
 if __name__ == '__main__':
-    PORT = 4    # D4
+    DPORT = 4    # D4 - Digital Port
+    APORT = 0    # A0 - Analog Port
 
     while True:
         #So we do not poll the sensors too quickly which may introduce noise,
@@ -41,10 +42,10 @@ if __name__ == '__main__':
         #Rotary  angle sensor's range is [0,1023], while ultrasonic ranger is
         #ranger is [0,517]. So the threshold in cm is the fraction (517/1023) of
         #the reading from the rotary angle sensor, mapped to an integer
-        threshold = int(grovepi.analogRead(0) * (517/1023))
+        threshold = int(grovepi.analogRead(APORT) * (517/1023))
 
         #Distance read in cm from the ultrasonic ranger
-        dist = grovepi.ultrasonicRead(PORT)
+        dist = grovepi.ultrasonicRead(DPORT)
 
         #If the measured distance falls within the threshold, change screen to
         #red and print the two readings with OBJ PRES
