@@ -1,9 +1,7 @@
 """ EE 250L Lab 02: GrovePi Sensors
 
-List team members here.
 Bradford Peterson
 
-Insert Github repository link here.
 https://www.github.com/usc-ee250-spring2021/lab02-bbpeters-usc
 """
 
@@ -39,10 +37,8 @@ if __name__ == '__main__':
         #sleep for a reasonable time of 200ms between each iteration.
         time.sleep(0.2)
 
-        #Rotary  angle sensor's range is [0,1023], while ultrasonic ranger is
-        #ranger is [0,517]. So the threshold in cm is the fraction (517/1023) of
-        #the reading from the rotary angle sensor, mapped to an integer
-        threshold = int(grovepi.analogRead(APORT) * (517/1023))
+        #Threshold read in cm from rotary  angle sensor. Range is [0,1023]
+        threshold = grovepi.analogRead(APORT)
 
         #Distance read in cm from the ultrasonic ranger
         dist = grovepi.ultrasonicRead(DPORT)
